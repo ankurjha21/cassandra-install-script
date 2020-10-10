@@ -134,18 +134,3 @@ chown -R ubuntu: /home/ubuntu
 somenum=$(hostname -i | cut -d "." -f 4);
 hour="$(($somenum%24))"
 echo "#0 ${hour} * * *  nodetool repair -pr" | crontab -u cassandra -
-
-# Enable automatic security updates
-cat <<EOF > /etc/apt/apt.conf.d/50unattended-upgrades
-// Automatically perform security updates
-Unattended-Upgrade::Allowed-Origins {
-        "Ubuntu xenial-security";
-};
-EOF
-
-cat <<EOF > /etc/apt/apt.conf.d/10periodic
-APT::Periodic::Update-Package-Lists "1";
-APT::Periodic::Download-Upgradeable-Packages "1";
-APT::Periodic::AutocleanInterval "7";
-APT::Periodic::Unattended-Upgrade "1";
-EOF
